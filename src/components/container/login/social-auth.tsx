@@ -2,12 +2,25 @@ import { useMsal } from '@azure/msal-react';
 import { Icon } from '@iconify/react';
 import { Box, IconButton, Stack, Typography } from '@mui/material';
 import { loginRequest } from 'authConfig';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { loginSocial } from 'store/auth/slice';
+import { callMsGraph } from 'utils/graph';
 
 export function SocialAuth() {
-  const { instance } = useMsal();
+  const { instance, accounts } = useMsal();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    instance
+      .acquireTokenSilent({
+        ...loginRequest,
+        account: accounts[0],
+      })
+      .then((response) => {
+        callMsGraph(response.accessToken).then((res) => dispatch(loginSocial(res)));
+      });
+  }, [accounts]);
 
   return (
     <Stack direction="row" spacing={2}>
@@ -19,13 +32,10 @@ export function SocialAuth() {
           flex: 1,
         }}
         onClick={() => {
-          instance
-            .loginPopup(loginRequest)
-            .then((res) => dispatch(loginSocial(res.account)))
-            .catch((error) => {
-              // eslint-disable-next-line no-console
-              console.log(error);
-            });
+          instance.loginRedirect(loginRequest).catch((error) => {
+            // eslint-disable-next-line no-console
+            console.log(error);
+          });
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '3px' }}>

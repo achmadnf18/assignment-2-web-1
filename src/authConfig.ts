@@ -6,7 +6,7 @@ const config = {
   auth: {
     authority: 'https://login.microsoftonline.com/common',
     clientId: process.env.REACT_APP_AZURE_CLIENT_ID || '',
-    redirectUri: 'http://localhost:3000/',
+    redirectUri: 'http://localhost:3000/login',
   },
   cache: {
     cacheLocation: 'localStorage',

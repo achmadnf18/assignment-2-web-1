@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
-import { Box, Container, Divider as DividerMUI, Typography } from '@mui/material';
+import { Box, Divider as DividerMUI, Typography } from '@mui/material';
 import { PromoList } from 'components/container/promo/promo-list';
-import { Header } from 'components/layout/header';
 
 const ContentStyle = styled('div')({
   padding: 25,
@@ -19,9 +18,7 @@ const Divider = styled(DividerMUI)({
 
 function HomePage() {
   return (
-    <Container maxWidth="sm">
-      <Header />
-      <Divider />
+    <>
       <ContentStyle>
         <Box sx={{ fontSize: 18 }}>
           <Typography variant="h2" gutterBottom>
@@ -33,7 +30,7 @@ function HomePage() {
       <ContentStyle>
         <PromoList />
       </ContentStyle>
-    </Container>
+    </>
   );
 }
 
